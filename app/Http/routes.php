@@ -15,7 +15,7 @@
 //
 // Api
 // ----------------------------
-Route::group(['middleware' => ['addTenant'], 'prefix' => 'api'], function() {
+Route::group(['middleware' => [], 'prefix' => 'api'], function() {
     Route::get('/', function() {
         return view('api.index');
     });
@@ -26,7 +26,6 @@ Route::group(['middleware' => ['addTenant'], 'prefix' => 'api'], function() {
     Route::controller('talk',     'Api\TalkController');
 
     Route::controller('user', 'Api\UserController');
-    Route::controller('tenant', 'Api\TenantController');
 });
 
 
@@ -42,14 +41,12 @@ Route::group([], function() {
     Route::post('/login', ['as' => 'admin.auth.loginHandle', 'uses' => 'Admin\AuthController@postLogin']);
     Route::any('/logout', ['as' => 'admin.auth.logout', 'uses' => 'Admin\AuthController@anyLogout']);
 
-    Route::group(['prefix' => 'admin', 'middleware' => ['auth.tenant', 'addTenantWithAdmin']], function() {
+    Route::group(['prefix' => 'admin', 'middleware' => []], function() {
         Route::resource('timeline', 'Admin\TimelineController');
         Route::resource('activity', 'Admin\ActivityController');
     });
 
     Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
-    Route::get('create-tenant', ['as' => 'home.create-tenant', 'uses' => 'HomeController@createTenant']);
-    Route::post('store-tenant', ['as' => 'home.store-tenant', 'uses' => 'HomeController@storeTenant']);
 
     Route::controller('system', 'SystemController');
     Route::controller('/', 'HomeController');

@@ -8,11 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use TenantScope;
 use App\User;
 use App\Timeline;
 use App\Activity;
-use App\Tenant;
 
 class HomeController extends Controller
 {
@@ -25,13 +23,9 @@ class HomeController extends Controller
     {
         $assign = [];
 
-        if (Auth::tenant()->user()) {
-            TenantScope::addTenant('tenant_id', Auth::tenant()->user()->id);
-
-            $assign['users']        =   User::all();
-            $assign['timelines']    =   Activity::all();
-            $assign['activities']   =   Timeline::all();
-        }
+        $assign['users']        =   User::all();
+        $assign['timelines']    =   Activity::all();
+        $assign['activities']   =   Timeline::all();
         return view('admin.home.index', $assign);
     }
 

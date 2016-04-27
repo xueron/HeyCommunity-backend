@@ -18,8 +18,6 @@ class CreateActivityCommentsTable extends Migration
             $table->foreign('activity_id')->references('id')->on('activities');
             $table->integer('user_id')->index()->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('tenant_id')->index()->unsigned();
-            $table->foreign('tenant_id')->references('id')->on('tenants');
 
             $table->string('content', 191);
 

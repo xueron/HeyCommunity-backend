@@ -18,8 +18,6 @@ class CreateTimelineLikesTable extends Migration
             $table->foreign('timeline_id')->references('id')->on('timelines');
             $table->integer('user_id')->index()->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('tenant_id')->index()->unsigned();
-            $table->foreign('tenant_id')->references('id')->on('tenants');
 
             $table->softDeletes();
             $table->timestamps();

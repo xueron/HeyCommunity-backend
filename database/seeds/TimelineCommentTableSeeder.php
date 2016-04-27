@@ -13,7 +13,6 @@ class TimelineCommentTableSeeder extends Seeder
     {
         //
         $users = \App\User::lists('id')->toArray();
-        $tenants = \App\Tenant::lists('id')->toArray();
         $timelines = \App\Timeline::lists('id')->toArray();
 
         $faker = Faker\Factory::create();
@@ -22,7 +21,6 @@ class TimelineCommentTableSeeder extends Seeder
 
             \App\TimelineComment::create([
                 'user_id'       =>      $faker->randomElement($users),
-                'tenant_id'     =>      with(\App\Timeline::find($timelineId))->tenant_id,
                 'timeline_id'   =>      $timelineId,
                 'content'       =>      implode('', $faker->paragraphs(random_int(1, 2))),
             ]);

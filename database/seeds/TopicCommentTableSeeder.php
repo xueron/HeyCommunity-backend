@@ -13,16 +13,14 @@ class TopicCommentTableSeeder extends Seeder
     {
         //
         $users = \App\User::lists('id')->toArray();
-        $tenants = \App\Tenant::lists('id')->toArray();
         $topics = \App\Topic::lists('id')->toArray();
 
         $faker = Faker\Factory::create();
         foreach (range(1, 868) as $index) {
-            $topicId = $faker->randomElement($tenants);
+            $topicId = $faker->randomElement($topics);
 
             \App\TopicComment::create([
                 'user_id'       =>      $faker->randomElement($users),
-                'tenant_id'     =>      with(\App\Topic::find($topicId))->tenant_id,
                 'topic_id'      =>      $topicId,
                 'content'       =>      implode('', $faker->paragraphs(random_int(1, 2))),
             ]);

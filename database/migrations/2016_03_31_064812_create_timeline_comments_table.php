@@ -16,8 +16,6 @@ class CreateTimelineCommentsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->index()->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('tenant_id')->index()->unsigned();
-            $table->foreign('tenant_id')->references('id')->on('tenants');
 
             $table->integer('timeline_id')->index()->unsigned();
             $table->foreign('timeline_id')->references('id')->on('timelines');
