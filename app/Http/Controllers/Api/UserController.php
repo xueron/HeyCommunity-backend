@@ -14,6 +14,14 @@ use Dev4living\LeanCloudSMS\LeanCloudSMS;
 class UserController extends Controller
 {
     /**
+     * construct
+     */
+    public function __construct()
+    {
+        $this->middleware('auth.user', ['only' => ['postVerifyPassword', 'postSetNewPassword']]);
+    }
+
+    /**
      * Sign in
      */
     public function getSignOut()
@@ -69,7 +77,7 @@ class UserController extends Controller
     }
 
     /**
-     * Get signUp captcha
+     * Get captcha
      */
     public function anyGetCaptcha(Request $request)
     {
@@ -86,6 +94,90 @@ class UserController extends Controller
             return response($ret['error'], 500);
         } else {
             return $ret;
+        }
+    }
+
+    /**
+     * Verify captcha
+     */
+    public function postVerifyCaptcha(Request $request)
+    {
+        $this->validate($request, [
+            'phone'     =>  'required|unique:users',
+            'captcha'   =>  'required',
+        ]);
+
+        $config['header'] = explode('|', env('LEANCLOUD_VERIFY_SMS_HEADER'));
+        $data = [
+            'mobilePhoneNumber'     =>  $request->phone,
+            'verifyCode'            =>  $request->captcha,
+        ];
+        $ret = LeanCloudSMS::init($config)->verifySmsCode($data);
+        $ret = json_decode($ret, true);
+        if (isset($ret['error'])) {
+            return response($ret['error'], 500);
+        } else {
+            return $ret;
+            // @todo set verifyed
+        }
+    }
+
+    /**
+     *
+     */
+    public function postVerifyPassword(Request $request)
+    {
+        $this->validate($request, [
+            'password'      =>  'required',
+        ]);
+
+        $User = Auth::user()->user();
+        if ($User && Hash::check($request->password, $User->password)) {
+            return $User;
+        } else {
+            return response('verify fail', 400);
+        }
+    }
+
+    /**
+     *
+     */
+    public function postResetPassword(Request $request)
+    {
+        $this->validate($request, [
+            'new_password'      =>  'required',
+        ]);
+
+
+        $User = Auth::user()->user();
+        $User->password = Hash::make($request->new_password);
+
+        if ($User->save()) {
+            return $User;
+        } else {
+            return response('fail', 500);
+        }
+    }
+
+    /**
+     *
+     */
+    public function postSetNewPassword(Request $request)
+    {
+        $this->validate($request, [
+            'old_password'      =>  'required',
+            'new_password'      =>  'required',
+        ]);
+
+
+        $User = Auth::user()->user();
+        if ($User && Hash::check($request->old_password, $User->password)) {
+            $User->password = Hash::make($request->password);
+            $User->save();
+
+            return $User;
+        } else {
+            return response('verify fail', 400);
         }
     }
 
