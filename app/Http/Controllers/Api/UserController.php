@@ -82,7 +82,8 @@ class UserController extends Controller
     public function anyGetCaptcha(Request $request)
     {
         $this->validate($request, [
-            'phone'     =>  'required|unique:users',
+            'phone'     =>  'required',
+            //@todo fix by sign up 'phone'     =>  'required|unique:users',
         ]);
 
         $config['header'] = explode('|', env('LEANCLOUD_REQUEST_SMS_HEADER'));
@@ -103,7 +104,8 @@ class UserController extends Controller
     public function postVerifyCaptcha(Request $request)
     {
         $this->validate($request, [
-            'phone'     =>  'required|unique:users',
+            'phone'     =>  'required',
+            //@todo fix by sign up 'phone'     =>  'required|unique:users',
             'captcha'   =>  'required',
         ]);
 
@@ -145,11 +147,12 @@ class UserController extends Controller
     public function postResetPassword(Request $request)
     {
         $this->validate($request, [
+            'phone'         =>  'required',
             'new_password'      =>  'required',
         ]);
 
 
-        $User = Auth::user()->user();
+        $User = User::where(['phone' => $request->phone])->firstOrFail();
         $User->password = Hash::make($request->new_password);
 
         if ($User->save()) {
