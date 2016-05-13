@@ -172,7 +172,7 @@ class UserController extends Controller
 
         $User = Auth::user()->user();
         if ($User && Hash::check($request->old_password, $User->password)) {
-            $User->password = Hash::make($request->password);
+            $User->password = Hash::make($request->new_password);
             $User->save();
 
             return $User;
