@@ -15,7 +15,7 @@ class ActivityTableSeeder extends Seeder
 
         $faker = Faker\Factory::create();
         foreach (range(1, 668) as $index) {
-            \App\Activity::create([
+            $data[] = [
                 'user_id'       =>      $faker->randomElement($users),
                 'title'         =>      $faker->sentence(),
                 'content'       =>      implode('', $faker->paragraphs(random_int(2, 10))),
@@ -23,7 +23,8 @@ class ActivityTableSeeder extends Seeder
 
                 'start_date'    =>      $faker->dateTimeBetween('- 10 days', 'now'),
                 'end_date'      =>      $faker->dateTimeBetween('now', '+ 30 days'),
-            ]);
+            ];
         }
+        \App\Activity::insert($data);
     }
 }

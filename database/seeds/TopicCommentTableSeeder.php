@@ -19,11 +19,12 @@ class TopicCommentTableSeeder extends Seeder
         foreach (range(1, 868) as $index) {
             $topicId = $faker->randomElement($topics);
 
-            \App\TopicComment::create([
+            $data[] = [
                 'user_id'       =>      $faker->randomElement($users),
                 'topic_id'      =>      $topicId,
                 'content'       =>      implode('', $faker->paragraphs(random_int(1, 2))),
-            ]);
+            ];
         }
+        \App\TopicComment::insert($data);
     }
 }

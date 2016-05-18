@@ -15,12 +15,13 @@ class TopicTableSeeder extends Seeder
 
         $faker = Faker\Factory::create();
         foreach (range(1, 268) as $index) {
-            \App\Topic::create([
+            $data[] = [
                 'user_id'       =>      $faker->randomElement($users),
                 'title'         =>      $faker->sentence(),
                 'content'       =>      implode('', $faker->paragraphs(random_int(1, 5))),
                 'avatar'        =>      $faker->imageUrl(),
-            ]);
+            ];
         }
+        \App\Topic::insert($data);
     }
 }

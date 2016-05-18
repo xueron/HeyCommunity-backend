@@ -15,12 +15,13 @@ class TimelineTableSeeder extends Seeder
 
         $faker = Faker\Factory::create();
         foreach (range(1, 668) as $index) {
-            \App\Timeline::create([
+            $data[] = [
                 'user_id'       =>      $faker->randomElement($users),
                 'title'         =>      $faker->sentence(),
                 'content'       =>      implode('', $faker->paragraphs(random_int(1, 5))),
                 'attachment'    =>      $faker->imageUrl(),
-            ]);
+            ];
         }
+        \App\Timeline::insert($data);
     }
 }

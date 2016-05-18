@@ -19,11 +19,12 @@ class TimelineCommentTableSeeder extends Seeder
         foreach (range(1, 868) as $index) {
             $timelineId = $faker->randomElement($timelines);
 
-            \App\TimelineComment::create([
+            $data[] = [
                 'user_id'       =>      $faker->randomElement($users),
                 'timeline_id'   =>      $timelineId,
                 'content'       =>      implode('', $faker->paragraphs(random_int(1, 2))),
-            ]);
+            ];
         }
+        \App\TimelineComment::insert($data);
     }
 }

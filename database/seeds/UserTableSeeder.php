@@ -29,13 +29,14 @@ class UserTableSeeder extends Seeder
         ]);
 
         foreach (range(1, 68) as $index) {
-            \App\User::create([
+            $data[] = [
                 'nickname'      =>  $faker->name(),
                 'avatar'        =>  $faker->imageUrl(),
                 'email'         =>  $faker->email(),
                 'phone'         =>  $faker->phoneNumber(),
                 'password'      =>  bcrypt('hey community'),
-            ]);
+            ];
         }
+        \App\User::insert($data);
     }
 }
