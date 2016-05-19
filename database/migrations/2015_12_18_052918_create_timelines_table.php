@@ -17,10 +17,10 @@ class CreateTimelinesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->index()->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('title', 191);
-            $table->string('attachment', 191);
             $table->text('content');
+            $table->string('attachment', 191);
             $table->integer('like_num')->default(0);
+            $table->integer('view_num')->default(0);
             $table->integer('comment_num')->default(0);
 
             $table->softDeletes();

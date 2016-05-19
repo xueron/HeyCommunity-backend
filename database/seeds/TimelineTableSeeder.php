@@ -17,9 +17,8 @@ class TimelineTableSeeder extends Seeder
         foreach (range(1, 668) as $index) {
             $data[] = [
                 'user_id'       =>      $faker->randomElement($users),
-                'title'         =>      $faker->sentence(),
                 'content'       =>      implode('', $faker->paragraphs(random_int(1, 5))),
-                'attachment'    =>      $faker->imageUrl(),
+                'attachment'    =>      random_int(0, 1) ? $faker->imageUrl() : null,
             ];
         }
         \App\Timeline::insert($data);
