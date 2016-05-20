@@ -53,6 +53,9 @@ class TimelineController extends Controller
         } else {
             $ret['likes'] = [];
         }
+
+        // del items
+        $ret['delItems'] = Timeline::onlyTrashed()->lists('id')->toArray();
         return $ret;
     }
 
