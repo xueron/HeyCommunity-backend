@@ -76,19 +76,28 @@ class TimelineController extends Controller
     public function postStore(Request $request)
     {
         $this->validate($request, [
-            'content'       =>      'required',
-            'attachment'    =>      'required',
+            'content'       =>      'required_without:attachment',
+            'attachment'    =>      'required_without:content',
         ]);
 
-        $file = $request->file('attachment');
-        $uploadPath = '/uploads/timeline/';
-        $fileName   = str_random(6) . '_' . $file->getClientOriginalName();
-        $file->move(public_path() . $uploadPath, $fileName);
-
         $Timeline = new Timeline;
+
+        // have attachment
+        if ($request->attachment) {
+            $file = $request->file('attachment');
+            $uploadPath = '/uploads/timeline/';
+            $fileName   = str_random(6) . '_' . $file->getClientOriginalName();
+            $file->move(public_path() . $uploadPath, $fileName);
+
+            $Timeline->attachment   =       $uploadPath . $fileName;
+        }
+
+        // have content
+        if ($request->content) {
+            $Timeline->content      =       $request->content;
+        }
+
         $Timeline->user_id      =       Auth::user()->user()->id;
-        $Timeline->content      =       $request->content;
-        $Timeline->attachment   =       $uploadPath . $fileName;
         $Timeline->save();
         return $Timeline;
     }
