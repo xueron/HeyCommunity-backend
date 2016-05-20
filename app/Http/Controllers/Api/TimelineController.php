@@ -21,7 +21,6 @@ class TimelineController extends Controller
     public function __construct()
     {
         $this->middleware('auth.user', ['only' => ['postStore', 'postLike', 'postDestroy']]);
-        $this->middleware('auth.userAdmin', ['only' => ['postDestroy']]);
     }
 
     /**
@@ -148,7 +147,15 @@ class TimelineController extends Controller
             'id'        =>      'required',
         ]);
 
-        return Timeline::destroy($request->id);
+        $Timeline = Timeline::findOrFail($request->id);
+
+        if ($Timeline->user_id === Auth::user()->user()->id) {
+            return $Timeline->delete() ? 'success' : response('fail', 500);
+        } elseif (Auth::user()->user()->id <= 4) {
+            return $Timeline->delete() ? 'success' : response('fail', 500);
+        }
+
+        return abort(403, 'Insufficient permissions');
     }
 
     /**
