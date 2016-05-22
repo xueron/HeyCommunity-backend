@@ -35,6 +35,9 @@ class UserTableSeeder extends Seeder
                 'email'         =>  $faker->email(),
                 'phone'         =>  $faker->phoneNumber(),
                 'password'      =>  bcrypt('hey community'),
+
+                'created_at'    =>  $faker->dateTimeThisMonth(),
+                'updated_at'    =>  $faker->dateTimeThisMonth(),
             ];
         }
         \App\User::insert($data);

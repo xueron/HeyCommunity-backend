@@ -19,6 +19,9 @@ class TimelineTableSeeder extends Seeder
                 'user_id'       =>      $faker->randomElement($users),
                 'content'       =>      implode('', $faker->paragraphs(random_int(1, 5))),
                 'attachment'    =>      random_int(0, 1) ? $faker->imageUrl() : null,
+
+                'created_at'    =>  $faker->dateTimeThisMonth(),
+                'updated_at'    =>  $faker->dateTimeThisMonth(),
             ];
         }
         \App\Timeline::insert($data);

@@ -23,6 +23,9 @@ class TimelineCommentTableSeeder extends Seeder
                 'user_id'       =>      $faker->randomElement($users),
                 'timeline_id'   =>      $timelineId,
                 'content'       =>      implode('', $faker->paragraphs(random_int(1, 2))),
+
+                'created_at'    =>  $faker->dateTimeThisMonth(),
+                'updated_at'    =>  $faker->dateTimeThisMonth(),
             ];
         }
         \App\TimelineComment::insert($data);

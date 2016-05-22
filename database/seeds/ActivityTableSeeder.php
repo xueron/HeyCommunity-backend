@@ -23,6 +23,9 @@ class ActivityTableSeeder extends Seeder
 
                 'start_date'    =>      $faker->dateTimeBetween('- 10 days', 'now'),
                 'end_date'      =>      $faker->dateTimeBetween('now', '+ 30 days'),
+
+                'created_at'    =>  $faker->dateTimeThisMonth(),
+                'updated_at'    =>  $faker->dateTimeThisMonth(),
             ];
         }
         \App\Activity::insert($data);

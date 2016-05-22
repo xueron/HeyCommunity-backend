@@ -22,6 +22,9 @@ class TopicTableSeeder extends Seeder
                 'avatar'        =>      $faker->imageUrl(),
                 'is_top'        =>      random_int(0, 1),
                 'is_excellent'  =>      random_int(0, 1),
+
+                'created_at'    =>  $faker->dateTimeThisMonth(),
+                'updated_at'    =>  $faker->dateTimeThisMonth(),
             ];
         }
         \App\Topic::insert($data);

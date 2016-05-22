@@ -23,6 +23,9 @@ class TopicCommentTableSeeder extends Seeder
                 'user_id'       =>      $faker->randomElement($users),
                 'topic_id'      =>      $topicId,
                 'content'       =>      implode('', $faker->paragraphs(random_int(1, 2))),
+
+                'created_at'    =>  $faker->dateTimeThisMonth(),
+                'updated_at'    =>  $faker->dateTimeThisMonth(),
             ];
         }
         \App\TopicComment::insert($data);
