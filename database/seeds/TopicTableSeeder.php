@@ -20,6 +20,8 @@ class TopicTableSeeder extends Seeder
                 'title'         =>      $faker->sentence(),
                 'content'       =>      implode('', $faker->paragraphs(random_int(1, 5))),
                 'avatar'        =>      $faker->imageUrl(),
+                'is_top'        =>      random_int(0, 1),
+                'is_excellent'  =>      random_int(0, 1),
             ];
         }
         \App\Topic::insert($data);

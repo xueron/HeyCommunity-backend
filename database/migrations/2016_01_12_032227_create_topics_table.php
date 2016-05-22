@@ -21,6 +21,8 @@ class CreateTopicsTable extends Migration
             $table->text('content');
             $table->integer('thumb_up_num')->default(0);
             $table->integer('thumb_down_num')->default(0);
+            $table->integer('is_top')->default(0);
+            $table->integer('is_excellent')->default(0);
             $table->integer('comment_num')->default(0);
 
             $table->softDeletes();
