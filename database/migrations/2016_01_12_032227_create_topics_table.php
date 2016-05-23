@@ -19,8 +19,9 @@ class CreateTopicsTable extends Migration
             $table->string('avatar', 191);
             $table->string('title', 191);
             $table->text('content');
-            $table->integer('thumb_up_num')->default(0);
-            $table->integer('thumb_down_num')->default(0);
+            $table->integer('vote_up_num')->default(0);
+            $table->integer('vote_down_num')->default(0);
+            $table->integer('view_num')->default(0);
             $table->integer('is_top')->default(0);
             $table->integer('is_excellent')->default(0);
             $table->integer('comment_num')->default(0);

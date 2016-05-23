@@ -162,4 +162,71 @@ class TopicController extends Controller
         return $Topic->with(['author', 'comments'])->findOrFail($Topic->id);
     }
 
+    /**
+     *
+     */
+    public function postVoteUp(Request $request)
+    {
+        $this->validate($request, [
+            'id'        =>      'required',
+        ]);
+
+        $Topic = Topic::with(['author', 'comments'])->findOrFail($request->id);
+        $Topic->increment('vote_up_num');
+        return $Topic;
+    }
+
+    /**
+     *
+     */
+    public function postVoteDown(Request $request)
+    {
+        $this->validate($request, [
+            'id'        =>      'required',
+        ]);
+
+        $Topic = Topic::with(['author', 'comments'])->findOrFail($request->id);
+        $Topic->increment('vote_down_num');
+        return $Topic;
+    }
+
+    /**
+     *
+     */
+    public function postToggleTop(Request $request)
+    {
+        $this->validate($request, [
+            'id'        =>      'required',
+        ]);
+
+        $Topic = Topic::with(['author', 'comments'])->findOrFail($request->id);
+        if ($Topic->is_top == 1) {
+            $Topic->is_top = 0;
+        } else if ($Topic->is_top == 0) {
+            $Topic->is_top = 1;
+        }
+        $Topic->save();
+
+        return $Topic;
+    }
+
+    /**
+     *
+     */
+    public function postToggleExcellent(Request $request)
+    {
+        $this->validate($request, [
+            'id'        =>      'required',
+        ]);
+
+        $Topic = Topic::with(['author', 'comments'])->findOrFail($request->id);
+        if ($Topic->is_excellent == 1) {
+            $Topic->is_excellent = 0;
+        } else if ($Topic->is_excellent == 0) {
+            $Topic->is_excellent = 1;
+        }
+        $Topic->save();
+
+        return $Topic;
+    }
 }
