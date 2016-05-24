@@ -1,150 +1,48 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <link rel="stylesheet" type="text/css" href="assets/style/home.css">
-    <link rel="stylesheet" type="text/css" href="bower-assets/bootstrap/dist/css/bootstrap.min.css">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
+    <title>HeyCommunity</title>
+
+    <link href="http://fonts.useso.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            display: table;
+            font-weight: 100;
+            font-family: 'Lato';
+        }
+
+        .container {
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .content {
+            text-align: center;
+            display: inline-block;
+        }
+
+        .title {
+            font-size: 96px;
+        }
+    </style>
 </head>
 
 <body>
     @include('layouts.common')
-    <div id="main-body">
-        <div class="visible-sm-block visible-xs-block banner-box text-center">
-            HeyCommunity <br>
-            DEMO: <a href="http://demo.hey-community.cn">demo.hey-community.cn</a>
-        </div>
-        <div class="container-fluid">
-            <div class="row row-1">
-                <div class="col-md-6 hidden-sm hidden-xs">
-                    <div class="phone-box">
-                        <iframe src="http://demo.hey-community.cn"></iframe>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="panel panel-default panel-new-tenant">
-                        @if (Auth::tenant()->guest())
-                            <div class="panel-body">
-                                <p class="text-center caption">New Community</p>
-
-                                @if (count($errors) > 0)
-                                <div class="alert alert-danger" style="margin:0 15px;">
-                                    <strong>Whoops!</strong> There were some problems with your input.
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                @endif
-
-                                {!! Form::open(array('route' => 'home.store-tenant', 'method' => 'post', 'class' => 'form')) !!}
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <input class="form-control" type="text" name="site_name" value="{{ old('site_name') }}" placeholder="Site Name">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon" id="sizing-addon1">http://</span>
-                                                <input class="form-control" type="text" name="domain" value="{{ old('domain') }}" placeholder="site-domain.com">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon" id="sizing-addon1">http://</span>
-                                                <input class="form-control" type="text" name="sub_domain" value="{{ old('sub_domain') }}" placeholder="sub-domain">
-                                                <span class="input-group-addon" id="sizing-addon1">.hey-community.cn</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <input class="form-control" type="text" name="email" value="{{ old('email') }}" placeholder="Admin Email">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <input class="form-control" type="text" name="phone" value="{{ old('phone') }}" placeholder="Admin Phone">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <input class="form-control" type="password" name="password" value="{{ old('password') }}" placeholder="Password">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-12" style="margin-top:2px;">
-                                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                                        </div>
-                                    </div>
-                                {!! Form::close() !!}
-
-                            </div>
-
-                            <div style="margin:-15px 30px 20px;">
-                                <hr style="margin:15px 0;">
-                                <div>
-                                    You have a community? <a href="{{ route('admin.auth.login')}}">Sign-in.</a>
-                                </div>
-                            </div>
-                        @else
-                            <div class="panel-body">
-                                <p class="text-center caption">You have a community</p>
-                                <div style="margin:0 30px;">
-                                    <p>
-                                        domain: <a target="_blank" href="http://{{ Auth::tenant()->user()->domain }}">{{ Auth::tenant()->user()->domain }}</a> <br>
-                                        <small>Please DNS app.hey-community.cn </small>
-                                    </p>
-                                    <p>
-                                        sub_domain: <a target="_blank" href="http://{{ Auth::tenant()->user()->sub_domain }}">{{ Auth::tenant()->user()->sub_domain }}</a>
-                                    </p>
-
-                                    <hr style="margin:15px 0;">
-                                    <div>
-                                        Into the <a class="" href="{{ route('admin.home') }}">Dashboard</a>, or <a href="{{ route('admin.auth.logout') }}">Sign-out</a>
-                                    </div>
-                                </div>
-
-                                <p>
-                                </p>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="margin-bottom:10px;">
-                <div class="col-xs-12 hidden-sm hidden-xs">
-                    <div class="pull-right">
-                        &copy;2016 Dev4living
-                    </div>
-                    <nav>
-                        <a href="{{ url('about-us') }}">ABOUT US</a>
-                        <a href="{{ url('open-resource') }}">OPEN RESOURCE</a>
-                    </nav>
-                </div>
-
-                <div class="col-xs-12 visible-sm-block visible-xs-block text-center">
-                    <nav class="" style="max-width:60%; margin:0 auto;">
-                        <a href="{{ url('about-us') }}">ABOUT US</a>
-                        <a href="{{ url('open-resource') }}">OPEN RESOURCE</a>
-                    </nav>
-                    <div>
-                        &copy;2016 Dev4living
-                    </div>
-                </div>
-            </div>
+    <div class="container">
+        <div class="content">
+            <div class="title">Hey Community Back End</div>
+            <p>Powered by Laravel</p>
         </div>
     </div>
 </body>
