@@ -38,7 +38,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ route('admin.home') }}">Hey Community</a>
+            <a class="navbar-brand" href="{{ route('home') }}">Hey Community</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -46,7 +46,7 @@
             <ul class="nav navbar-nav">
                 <li class="{{ Request::is('admin') ? 'active' : ''}}"><a href="{{ route('admin.home') }}">Home</a></li>
                 <li class="{{ Request::is('admin/timeline*') ? 'active' : ''}}"><a href="{{ route('admin.timeline.index') }}">Timeline</a></li>
-                <li class="{{ Request::is('admin/activity*') ? 'active' : ''}}"><a href="{{ route('admin.activity.index') }}">Activity</a></li>
+                <li class="hide {{ Request::is('admin/activity*') ? 'active' : ''}}"><a href="{{ route('admin.activity.index') }}">Activity</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
