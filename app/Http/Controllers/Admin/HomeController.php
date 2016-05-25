@@ -8,8 +8,11 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Auth;
+use Carbon\Carbon;
 use App\User;
 use App\Timeline;
+use App\Topic;
+use App\Notice;
 use App\Activity;
 
 class HomeController extends Controller
@@ -23,9 +26,24 @@ class HomeController extends Controller
     {
         $assign = [];
 
-        $assign['users']        =   User::all();
-        $assign['timelines']    =   Activity::all();
-        $assign['activities']   =   Timeline::all();
+        $weekDate = Carbon::today()->subWeek();
+        $monthDate = Carbon::today()->subMonth();
+
+        $assign['all']['user_num']              =       User::count();
+        $assign['all']['notice_num']            =       Notice::withTrashed()->count();
+        $assign['all']['timeline_num']          =       Timeline::count();
+        $assign['all']['topic_num']             =       Topic::count();
+
+        $assign['week']['user_num']              =       User::where('created_at', '>=', $weekDate)->count();
+        $assign['week']['notice_num']            =       Notice::where('created_at', '>=', $weekDate)->withTrashed()->count();
+        $assign['week']['timeline_num']          =       Timeline::where('created_at', '>=', $weekDate)->count();
+        $assign['week']['topic_num']             =       Topic::where('created_at', '>=', $weekDate)->count();
+
+        $assign['month']['user_num']              =       User::where('created_at', '>=', $monthDate)->count();
+        $assign['month']['notice_num']            =       Notice::where('created_at', '>=', $monthDate)->withTrashed()->count();
+        $assign['month']['timeline_num']          =       Timeline::where('created_at', '>=', $monthDate)->count();
+        $assign['month']['topic_num']             =       Topic::where('created_at', '>=', $monthDate)->count();
+
         return view('admin.home.index', $assign);
     }
 
