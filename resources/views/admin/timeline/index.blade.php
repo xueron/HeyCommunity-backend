@@ -22,7 +22,7 @@
                         <th>Attachment</th>
                         <th>Title</th>
                         <th>Content</th>
-                        <th>Options</th>
+                        <th class="hide">Options</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,7 @@
                         <td><img style="height:60px;" src="{{ $item->attachment }}"></td>
                         <td>{{ $item->title }}</td>
                         <td>{{ $item->content }}</td>
-                        <td style="white-space:nowrap;">
+                        <td class="hide" style="white-space:nowrap;">
                             <a class="btn btn-sm btn-default" href="{{ route('admin.timeline.edit', $item->id) }}"><i class="fa fa-edit"></i></a>
                             {!! Form::open(['method' => 'DELETE', 'route' => ['admin.timeline.destroy', $item->id], 'onsubmit' => 'return myConfirmDelete()', 'style' => 'display:inline-block']) !!}
                                 {!! Form::button('<i class="fa fa-trash"></i>', array('type' => 'submit', 'class' => 'btn btn-sm btn-danger')) !!}
