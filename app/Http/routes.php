@@ -44,6 +44,7 @@ Route::group([], function() {
     Route::group(['prefix' => 'admin', 'middleware' => []], function() {
         Route::resource('timeline', 'Admin\TimelineController');
         Route::resource('activity', 'Admin\ActivityController');
+        Route::resource('topic',    'Admin\TopicController');
     });
 
     Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
