@@ -11,7 +11,8 @@
         "laravelcollective/html": "^5.1",
         "aura-is-here/laravel-multi-tenant": "dev-master",
         "kbwebs/multiauth": "~1.0",
-        "dev4living/lean-cloud-sms-php": "dev-master"
+        "dev4living/lean-cloud-sms-php": "dev-master",
+        "nesbot/carbon": "^1.21"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

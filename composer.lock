@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a12d9b20efb85579e3a295266dc5a995",
-    "content-hash": "ed7fe3969b984f02781b894eaa905f94",
+    "hash": "c1d7c8687e616b5a0062e95b6ca59333",
+    "content-hash": "de7c4b577cbd007dafd7ffd65a85ece2",
     "packages": [
         {
             "name": "aura-is-here/laravel-multi-tenant",
