@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Debugbar;
+use Auth;
+use App\User;
 
 class WeChatController extends Controller
 {
@@ -40,7 +42,7 @@ class WeChatController extends Controller
     public function getOAuth(Request $request)
     {
         $APPID = 'wxc0913740d9e16659';
-        $REDIRECT_URI = urlencode('http://www.hey-community.com/api/wechat/user-info');
+        $REDIRECT_URI = urlencode(redirect()->to('api/wechat/user-info')->getTargetUrl());
         $SCOPE = 'snsapi_userinfo';
         $STATE = '';
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope={$SCOPE}&state={$STATE}#wechat_redirect";
@@ -64,7 +66,17 @@ class WeChatController extends Controller
             $openID = $accessTokenRets['openid'];
             $getUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token={$accessToken}&openid={$openID}&lang=zh_CN";
             $userInfo = json_decode(file_get_contents($getUserInfoUrl), true);
-            return $userInfo;
+
+            $User = User::where('wx_open_id', $openId)->get();
+            if (!$User) {
+                $User = new User;
+                $User->wx_open_id   =   $openID;
+                $User->nickname     =   $userInfo['nickname'];
+                $User->avatar       =   $userInfo['headimgurl'];
+                $User->save();
+            }
+
+            Auth::login($User);
         } else {
             return $accessTokenRets;
         }
