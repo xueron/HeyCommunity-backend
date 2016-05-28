@@ -1,0 +1,148 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Debugbar;
+
+class WeChatController extends Controller
+{
+    /**
+     *
+     */
+    public function getCheckSignature(Request $request)
+    {
+        Debugbar::disable();
+        $signature  =   $request->signature;
+        $timestamp  =   $request->timestamp;
+        $nonce      =   $request->nonce;
+
+        $token = 'protobiatechanddev4livingteam';
+        $tmpArr = array($token, $timestamp, $nonce);
+        sort($tmpArr, SORT_STRING);
+        $tmpStr = implode( $tmpArr );
+        $tmpStr = sha1( $tmpStr );
+
+        if($tmpStr == $signature){
+            return response($request->echostr, 200);
+        }else{
+            return response('false', 400);
+        }
+        Debugbar::enable();
+    }
+
+    /**
+     *
+     */
+    public function getOAuth(Request $request)
+    {
+        $APPID = 'wxc0913740d9e16659';
+        $REDIRECT_URI = urlencode('http://www.hey-community.com/api/wechat/user-info');
+        $SCOPE = 'snsapi_userinfo';
+        $STATE = '';
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope={$SCOPE}&state={$STATE}#wechat_redirect";
+        return redirect()->to($url);
+    }
+
+    /**
+     *
+     */
+    public function getUserInfo(Request $request)
+    {
+        $appID = 'wxc0913740d9e16659';
+        $secret = 'bb1dee0ae8135120b187aedd5c48f9ca';
+        $code  = $request->code;
+        $getAccessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$appID}&secret={$secret}&code={$code}&grant_type=authorization_code";
+
+        $accessTokenRets = json_decode(file_get_contents($getAccessTokenUrl), true);
+
+        if (isset($accessTokenRets['access_token'])) {
+            $accessToken = $accessTokenRets['access_token'];
+            $openID = $accessTokenRets['openid'];
+            $getUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token={$accessToken}&openid={$openID}&lang=zh_CN";
+            $userInfo = json_decode(file_get_contents($getUserInfoUrl), true);
+            return $userInfo;
+        } else {
+            return $accessTokenRets;
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}
