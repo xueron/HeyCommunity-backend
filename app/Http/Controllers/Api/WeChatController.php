@@ -41,10 +41,12 @@ class WeChatController extends Controller
      */
     public function getOAuth(Request $request)
     {
+        $referer = $request->header()['referer'][0];
+
         $APPID = 'wxc0913740d9e16659';
         $REDIRECT_URI = urlencode(redirect()->to('api/wechat/user-info')->getTargetUrl());
         $SCOPE = 'snsapi_userinfo';
-        $STATE = '';
+        $STATE = urlencode($referer);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope={$SCOPE}&state={$STATE}#wechat_redirect";
         return redirect()->to($url);
     }
@@ -77,6 +79,7 @@ class WeChatController extends Controller
             }
 
             Auth::user()->login($User);
+            return redirect()->to(urldecode($request->state));
         } else {
             return $accessTokenRets;
         }
