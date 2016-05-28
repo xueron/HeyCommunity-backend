@@ -219,7 +219,7 @@ class UserController extends Controller
             if (Auth::user()->check()) {
                 return Auth::user()->user();
             } else {
-                return null;
+                return response([], 404);
             }
         }
     }
