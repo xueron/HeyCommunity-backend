@@ -54,29 +54,29 @@ class WeChatController extends Controller
      */
     public function getUserInfo(Request $request)
     {
-        $appID = 'wxc0913740d9e16659';
+        $appId = 'wxc0913740d9e16659';
         $secret = 'bb1dee0ae8135120b187aedd5c48f9ca';
         $code  = $request->code;
-        $getAccessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$appID}&secret={$secret}&code={$code}&grant_type=authorization_code";
+        $getAccessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$appId}&secret={$secret}&code={$code}&grant_type=authorization_code";
 
         $accessTokenRets = json_decode(file_get_contents($getAccessTokenUrl), true);
 
         if (isset($accessTokenRets['access_token'])) {
             $accessToken = $accessTokenRets['access_token'];
-            $openID = $accessTokenRets['openid'];
-            $getUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token={$accessToken}&openid={$openID}&lang=zh_CN";
+            $openId = $accessTokenRets['openid'];
+            $getUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token={$accessToken}&openid={$openId}&lang=zh_CN";
             $userInfo = json_decode(file_get_contents($getUserInfoUrl), true);
 
-            $User = User::where('wx_open_id', $openId)->get();
+            $User = User::where('wx_open_id', $openId)->first();
             if (!$User) {
                 $User = new User;
-                $User->wx_open_id   =   $openID;
+                $User->wx_open_id   =   $openId;
                 $User->nickname     =   $userInfo['nickname'];
                 $User->avatar       =   $userInfo['headimgurl'];
                 $User->save();
             }
 
-            Auth::login($User);
+            Auth::user()->login($User);
         } else {
             return $accessTokenRets;
         }
