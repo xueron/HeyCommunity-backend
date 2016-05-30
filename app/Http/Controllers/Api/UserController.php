@@ -211,7 +211,7 @@ class UserController extends Controller
     /**
      * Reponse the user info
      */
-    public function getUserInfo($id = null)
+    public function getUser($id = null)
     {
         if ($id) {
             return User::findOrFail($id);
