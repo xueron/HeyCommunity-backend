@@ -46,7 +46,7 @@ class WeChatController extends Controller
         $APPID = 'wxc0913740d9e16659';
         $REDIRECT_URI = urlencode(redirect()->to('api/wechat/user-info')->getTargetUrl());
         $SCOPE = 'snsapi_userinfo';
-        $STATE = urlencode($referer);
+        $STATE = urlencode($referer) . '?noWeChatOAuth=true';
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope={$SCOPE}&state={$STATE}#wechat_redirect";
         return redirect()->to($url);
     }
