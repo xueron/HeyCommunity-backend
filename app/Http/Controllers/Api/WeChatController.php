@@ -42,11 +42,13 @@ class WeChatController extends Controller
     public function getOAuth(Request $request)
     {
         $referer = $request->header()['referer'][0];
+        preg_match('/^http[s]?:\/\/[^\/]*\//', $referer, $tenantDomain);
+
 
         $APPID = 'wxc0913740d9e16659';
-        $REDIRECT_URI = urlencode(redirect()->to('api/wechat/user-info')->getTargetUrl());
+        $REDIRECT_URI = urlencode(redirect()->to('api/wechat/get-wechat-user')->getTargetUrl());
         $SCOPE = 'snsapi_userinfo';
-        $STATE = urlencode($referer) . '?noWeChatOAuth=true';
+        $STATE = urlencode($tenantDomain[0]);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope={$SCOPE}&state={$STATE}#wechat_redirect";
         return redirect()->to($url);
     }
@@ -54,7 +56,7 @@ class WeChatController extends Controller
     /**
      *
      */
-    public function getUserInfo(Request $request)
+    public function getGetWechatUser(Request $request)
     {
         $appId = 'wxc0913740d9e16659';
         $secret = 'bb1dee0ae8135120b187aedd5c48f9ca';
@@ -78,11 +80,26 @@ class WeChatController extends Controller
                 $User->save();
             }
 
-            Auth::user()->login($User);
-            return redirect()->to(urldecode($request->state));
+            $loginUrl = urldecode($request->state) . 'api/wechat/login?token=' . $openId;
+            return redirect()->to($loginUrl);
         } else {
             return $accessTokenRets;
         }
+    }
+
+    /**
+     *
+     */
+    public function getLogin(Request $request)
+    {
+        $this->validate($request, [
+            'token'     =>  'required',
+        ]);
+
+        $User = User::where('wx_open_id', $request->token)->first();
+        Auth::user()->login($User);
+
+        return redirect()->to('/?noWeChatOAuth=true');
     }
 
     /**
