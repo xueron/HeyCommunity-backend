@@ -48,6 +48,7 @@
                 <li class="{{ Request::is('admin/timeline*') ? 'active' : ''}}"><a href="{{ route('admin.timeline.index') }}">Timeline</a></li>
                 <li class="hide {{ Request::is('admin/activity*') ? 'active' : ''}}"><a href="{{ route('admin.activity.index') }}">Activity</a></li>
                 <li class="{{ Request::is('admin/topic*') ? 'active' : ''}}"><a href="{{ route('admin.topic.index') }}">Topic</a></li>
+                <li class="{{ Request::is('admin/system*') ? 'active' : ''}}"><a href="{{ url('admin/system/index') }}">System Setting</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

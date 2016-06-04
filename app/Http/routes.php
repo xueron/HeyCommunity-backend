@@ -47,6 +47,7 @@ Route::group([], function() {
         Route::resource('timeline', 'Admin\TimelineController');
         Route::resource('activity', 'Admin\ActivityController');
         Route::resource('topic',    'Admin\TopicController');
+        Route::controller('system', 'Admin\SystemController');
     });
 
     Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
