@@ -16,7 +16,7 @@ class AuthenticateAdminWithUserAuth
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->check() && Auth::user()->user()->id <= 4) {
+        if (Auth::user()->check() && Auth::user()->user()->is_admin) {
             return $next($request);
         } else {
             return response('Insufficient permissions', 403);
