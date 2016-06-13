@@ -28,9 +28,9 @@
 
                     {!! Form::open(array('route' => 'admin.auth.loginHandle', 'method' => 'post', 'class' => 'form form-horizontal')) !!}
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="title">Email</label>
+                            <label class="col-sm-3 control-label" for="title">Phone</label>
                             <div class="col-sm-8">
-                                <input class="form-control" type="text" name="email" value="{{ old('email') }}" placeholder="place enter email">
+                                <input class="form-control" type="text" name="phone" value="{{ old('phone') }}" placeholder="place enter phone">
                             </div>
                         </div>
 

@@ -19,7 +19,11 @@ class AuthenticateAdminWithUserAuth
         if (Auth::user()->check() && Auth::user()->user()->is_admin) {
             return $next($request);
         } else {
-            return response('Insufficient permissions', 403);
+            if ($request->ajax()) {
+                return response('Insufficient permissions', 403);
+            } else {
+                return redirect()->to('admin/login');
+            }
         }
     }
 }

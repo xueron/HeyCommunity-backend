@@ -39,12 +39,13 @@ Route::group(['middleware' => [], 'prefix' => 'api'], function() {
 Route::group([], function() {
     // Admin dashboard
     // ----------------------------
-    Route::get('admin', ['as' => 'admin.home', 'uses' => 'Admin\HomeController@index']);
     Route::get('admin/login', ['as' => 'admin.auth.login', 'uses' => 'Admin\AuthController@getLogin']);
-    Route::post('/login', ['as' => 'admin.auth.loginHandle', 'uses' => 'Admin\AuthController@postLogin']);
-    Route::any('/logout', ['as' => 'admin.auth.logout', 'uses' => 'Admin\AuthController@anyLogout']);
+    Route::post('admin/login', ['as' => 'admin.auth.loginHandle', 'uses' => 'Admin\AuthController@postLogin']);
+    Route::any('admin/logout', ['as' => 'admin.auth.logout', 'uses' => 'Admin\AuthController@anyLogout']);
 
-    Route::group(['prefix' => 'admin', 'middleware' => []], function() {
+    Route::group(['prefix' => 'admin', 'middleware' => ['auth.userAdmin']], function() {
+        Route::get('/', ['as' => 'admin.home', 'uses' => 'Admin\HomeController@index']);
+
         Route::resource('timeline', 'Admin\TimelineController');
         Route::resource('activity', 'Admin\ActivityController');
         Route::resource('topic',    'Admin\TopicController');
@@ -52,6 +53,5 @@ Route::group([], function() {
     });
 
     Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
-
     Route::controller('system', 'SystemController');
 });

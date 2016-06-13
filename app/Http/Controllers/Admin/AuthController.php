@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth, Hash;
+use App\User;
 
 class AuthController extends Controller
 {
@@ -22,28 +23,24 @@ class AuthController extends Controller
     public function postLogin(Request $request)
     {
         $this->validate($request, [
-            'email'     =>  'required',
+            'phone'     =>  'required',
             'password'  =>  'required',
         ]);
 
-        dd($request());
-        /*
-        $model = Tenant::where(['email' => $request->email])->first();
-        if ($model && Hash::check($request->password, $model->password)) {
-            Auth::tenant()->login($model);
+        $User = User::where('phone', $request->phone)->where('is_admin', 1)->first();
+        if ($User && Hash::check($request->password, $User->password)) {
+            Auth::user()->login($User);
             return redirect()->route('admin.home');
         } else {
-            $request->flash();
-            return redirect()->back()->withErrors(['fail' => 'email or password error']);
+            return back()->withInput()->withErrors(['fail' => 'email or password error']);
         }
-        */
     }
 
     /**
      */
     public function anyLogout()
     {
-        // Auth::tenant()->logout();
+        Auth::user()->logout();
         return redirect()->route('home');
     }
 
