@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
@@ -12,15 +12,22 @@ use App\System;
 class SystemController extends Controller
 {
     /**
+     *
+     */
+    public function getInfo()
+    {
+        $System = System::findOrFail(1);
+        return $System;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function getIndex()
+    public function index()
     {
         //
-        $assign['system'] = System::findOrFail(1);
-        return view('admin.system.index', $assign);
     }
 
     /**
@@ -61,10 +68,9 @@ class SystemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getEdit()
+    public function edit($id)
     {
-        $assign['system'] = System::findOrFail(1);
-        return view('admin.system.edit', $assign);
+        //
     }
 
     /**
@@ -74,20 +80,9 @@ class SystemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function postUpdate(Request $request)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'site_name'         =>      'required',
-        ]);
-
-        $System = System::findOrFail(1);
-        $System->site_name = $request->site_name;
-
-        if ($System->save()) {
-            return redirect()->action('Admin\SystemController@getIndex');
-        } else {
-            return back()->withInput();
-        }
+        //
     }
 
     /**

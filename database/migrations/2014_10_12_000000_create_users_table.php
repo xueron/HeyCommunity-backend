@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email', 191)->nullable();
             $table->string('phone', 191)->nullable();
             $table->string('password', 60);
+            $table->integer('is_admin')->default(0);
             $table->rememberToken();
 
             $table->softDeletes();
@@ -35,6 +36,7 @@ class CreateUsersTable extends Migration
             'email'         =>      'admin@hey-community.cn',
             'phone'         =>      '12312341234',
             'password'      =>      Hash::make('admin1234'),
+            'is_admin'      =>      1,
         ]);
 
         Model::reguard();

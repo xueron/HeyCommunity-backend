@@ -14,7 +14,14 @@
                 <li class="active">Info</li>
             </ol>
 
-
+            <table class="table table-horizontal">
+                <tbody>
+                    <tr>
+                        <th>Site Name</th>
+                        <td>{{ $system->site_name }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

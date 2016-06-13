@@ -14,7 +14,20 @@
                 <li class="active">Edit</li>
             </ol>
 
+            {!! Form::open(array('url' => 'admin/system/update', 'method' => 'post', 'class' => 'form form-horizontal')) !!}
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="site_name">Site Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="site_name" id="site_name" value="{{ old('site_name', $system->site_name) }}">
+                    </div>
+                </div>
 
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-4">
+                        <button class="btn btn-primary btn-block" type="submit">Update</button>
+                    </div>
+                </div>
+            {!! Form::close() !!}
         </div>
     </div>
 </div>
