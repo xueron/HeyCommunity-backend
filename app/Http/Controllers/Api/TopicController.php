@@ -21,7 +21,7 @@ class TopicController extends Controller
     public function __construct()
     {
         $this->middleware('auth.user', ['only' => ['postStore', 'postCommentPublish', 'postDestroy']]);
-        $this->middleware('auth.userAdmin', ['only' => ['postDestroy']]);
+        $this->middleware('auth.userAdmin', ['only' => ['postToggleTop', 'postToggleExcellent']]);
     }
 
     /**
@@ -127,7 +127,16 @@ class TopicController extends Controller
             'id'        =>      'required',
         ]);
 
-        return Topic::destroy($request->id);
+        if (Auth::user()->check() && Auth::user()->user()->is_admin) {
+            return Topic::destroy($request->id);
+        } else {
+            $Topic = Topic::findOrFail($request->id);
+            if ($Topic->user_id === Auth::user()->user()->id) {
+                return Topic::destroy($request->id);
+            } else {
+                return response('Insufficient permissions', 403);
+            }
+        }
     }
 
     /**
